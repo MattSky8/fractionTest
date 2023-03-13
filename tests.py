@@ -31,27 +31,27 @@ class TestInit(unittest.TestCase):
     def test_twoArg(self):
         # will the 2 argument version of the constructor produce the correct fraction?
         a = Fraction(3, 1)
-        self.assertEqual(a.numerator, 3, "test_twoArg failed: Fraction(3, 1) does not set numerator to 3")
+        self.assertEqual(a.numerator, 3, msg="test_twoArg failed: Fraction(3, 1) does not set numerator to 3")
 
         b = Fraction(10, 7)
-        self.assertEqual(b.numerator, 10, "test_twoArg failed: Fraction(10, 7) does not set numerator to 10")
-        self.assertEqual(b.denominator, 7, "test_twoArg failed: Fraction(10, 7) does not set denominator to 7")
+        self.assertEqual(b.numerator, 10, msg="test_twoArg failed: Fraction(10, 7) does not set numerator to 10")
+        self.assertEqual(b.denominator, 7, msg="test_twoArg failed: Fraction(10, 7) does not set denominator to 7")
 
         c = Fraction(-6, 5)
-        self.assertEqual(c.numerator, -6, "test_twoArg failed: Fraction(-6, 5) does not set numerator to -6")
-        self.assertEqual(c.denominator, 5, "test_twoArg failed: Fraction(-6, 5) does not set denominator to 5")
+        self.assertEqual(c.numerator, -6, msg="test_twoArg failed: Fraction(-6, 5) does not set numerator to -6")
+        self.assertEqual(c.denominator, 5, msg="test_twoArg failed: Fraction(-6, 5) does not set denominator to 5")
 
         d = Fraction(-2, 3)
-        self.assertEqual(d.numerator, -2, "test_twoArg failed: Fraction(-2, 3) does not set numerator to -2")
-        self.assertEqual(d.denominator, 3, "test_twoArg failed: Fraction(-2, 3) does not set denominator to 3")
+        self.assertEqual(d.numerator, -2, msg="test_twoArg failed: Fraction(-2, 3) does not set numerator to -2")
+        self.assertEqual(d.denominator, 3, msg="test_twoArg failed: Fraction(-2, 3) does not set denominator to 3")
 
         e = Fraction(16, -3)
-        self.assertEqual(e.numerator, -16, "test_twoArg failed: Fraction(16, -3) does not set numerator to -16")
-        self.assertEqual(e.denominator, 3, "test_twoArg failed: Fraction(16, -3) does not set denominator to 3")
+        self.assertEqual(e.numerator, -16, msg="test_twoArg failed: Fraction(16, -3) does not set numerator to -16")
+        self.assertEqual(e.denominator, 3, msg="test_twoArg failed: Fraction(16, -3) does not set denominator to 3")
 
         f = Fraction(-1, -2)
-        self.assertEqual(f.numerator, 1, "test_twoArg failed: Fraction(-1, -2) does not set numerator to 1")
-        self.assertEqual(f.denominator, 2, "test_twoArg failed: Fraction(-1, -2) does not set denominator to 2")
+        self.assertEqual(f.numerator, 1, msg="test_twoArg failed: Fraction(-1, -2) does not set numerator to 1")
+        self.assertEqual(f.denominator, 2, msg="test_twoArg failed: Fraction(-1, -2) does not set denominator to 2")
 
     def test_invalidArg(self):
         # will constructor through an exception if non-numeric data is passed?
@@ -116,18 +116,42 @@ class TestStr(unittest.TestCase):
     def test_displayInt(self):
         # if the denominator is 1, does display omit the /1?
         a = Fraction(5)
-        self.assertEqual("5", a.__str__(), msg="Fraction(5).__str__() is incorrect")
+        self.assertEqual("5", a.__str__(), msg="test_displayInt failed: Fraction(5).__str__() is incorrect")
 
         b = Fraction()
-        self.assertEqual("0", b.__str__(), msg="Fraction().__str__() is incorrect")
+        self.assertEqual("0", b.__str__(), msg="test_displayInt failed: Fraction().__str__() is incorrect")
 
         c = Fraction(-3, 1)
-        self.assertEqual("-3", c.__str__(), msg="Fraction(-3, 1).__str__() is incorrect")
+        self.assertEqual("-3", c.__str__(), msg="test_displayInt failed: Fraction(-3, 1).__str__() is incorrect")
 
     def test_displayNeg(self):
         # if the fraction is negative, is it possible to erroneously have it display 1/-2, vs -1/2?
         a = Fraction(-1, 2)
-        self.assertEqual("-1/2", a.__str__(), msg="Fraction(-1, 2).__str__() is incorrect")
+        self.assertEqual("-1/2", a.__str__(), msg="test_displayNeg failed: Fraction(-1, 2).__str__() is incorrect")
 
         b = Fraction(5, -3)
-        self.assertEqual("-5/3", b.__str__(), msg="Fraction(5, -3).__str__() is incorrect")
+        self.assertEqual("-5/3", b.__str__(), msg="test_displayNeg failed: Fraction(5, -3).__str__() is incorrect")
+
+class TestFloat(unittest.TestCase):
+    def test_wholeNumber(self):
+        a = Fraction()
+        self.assertEqual(0.0, a.__float__(), msg="test_wholeNumber failed: Fraction().__float__() != 0.0")
+
+        b = Fraction(105)
+        self.assertEqual(105.0, b.__float__(), msg="test_wholeNumber failed: Fraction(105).__float__() != 105.0")
+
+        c = Fraction(-431)
+        self.assertEqual(-431.0, c.__float__(), msg="test_wholeNumber failed: Fraction(-431).__float__() != -431.0")
+
+    def test_notWholeNumber(self):
+        a = Fraction(65, 12)
+        self.assertEqual(a.numerator/a.denominator, a.__float__(), msg="test_notWholeNumber failed: "
+                                                                       "Fraction(65, 12).__float__() incorrect")
+
+        a = Fraction(-15, 19)
+        self.assertEqual(a.numerator / a.denominator, a.__float__(), msg="test_notWholeNumber failed: "
+                                                                         "Fraction(-15, 19).__float__() incorrect")
+
+        a = Fraction(1, 7)
+        self.assertEqual(a.numerator / a.denominator, a.__float__(), msg="test_notWholeNumber failed: "
+                                                                         "Fraction(1, 7).__float__() incorrect")
