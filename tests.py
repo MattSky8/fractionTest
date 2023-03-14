@@ -187,25 +187,25 @@ class TestAdd(unittest.TestCase):
 
     def test_addGeneral(self):
         u = self.a.__add__(self.b)
-        self.assertEqual(u.__str__(), "5/6", msg="test_addInverse failed: 3/4 + 1/12 != 5/6")
+        self.assertEqual(u.__str__(), "5/6", msg="test_addGeneral failed: 3/4 + 1/12 != 5/6")
 
         v = self.a.__add__(self.inv_b)
-        self.assertEqual(v.__str__(), "2/3", msg="test_addInverse failed: 3/4 + -1/12 != 2/3")
+        self.assertEqual(v.__str__(), "2/3", msg="test_addGeneral failed: 3/4 + -1/12 != 2/3")
 
         w = self.inv_a.__add__(self.b)
-        self.assertEqual(w.__str__(), "-2/3", msg="test_addInverse failed: -3/4 + 1/12 != -2/3")
+        self.assertEqual(w.__str__(), "-2/3", msg="test_addGeneral failed: -3/4 + 1/12 != -2/3")
 
         x = self.inv_a.__add__(self.inv_b)
-        self.assertEqual(x.__str__(), "-5/6", msg="test_addInverse failed: -3/4 + -1/12 != -5/6")
+        self.assertEqual(x.__str__(), "-5/6", msg="test_addGeneral failed: -3/4 + -1/12 != -5/6")
 
         y = self.a.__add__(self.c)
-        self.assertEqual(y.__str__(), "23/4", msg="test_addInverse failed: 3/4 + 5 != 23/4")
+        self.assertEqual(y.__str__(), "23/4", msg="test_addGeneral failed: 3/4 + 5 != 23/4")
 
         z = self.c.__add__(self.inv_b)
-        self.assertEqual(z.__str__(), "59/12", msg="test_addInverse failed: 5 + -1/12 != 59/12")
+        self.assertEqual(z.__str__(), "59/12", msg="test_addGeneral failed: 5 + -1/12 != 59/12")
 
         t = self.d.__add__(self.inv_a)
-        self.assertEqual(t.__str__(), "29/20", msg="test_addInverse failed: 11/5 + -3/4 != 29/20")
+        self.assertEqual(t.__str__(), "29/20", msg="test_addGeneral failed: 11/5 + -3/4 != 29/20")
 
 
 class TestSub(unittest.TestCase):
@@ -223,36 +223,36 @@ class TestSub(unittest.TestCase):
         self.assertEqual(u.__str__(), self.a.__str__(), msg="test_subZero failed: 3/4 - 0 != 3/4")
 
         v = self.zero.__sub__(self.b)
-        self.assertEqual(v.__str__(), self.b.__str__(), msg="test_addZero failed: -1/12 + 0 != -1/12")
+        self.assertEqual(v.__str__(), self.inv_b.__str__(), msg="test_subZero failed: 0 - 1/12 != -1/12")
 
-        w = self.zero.__add__(self.zero)
-        self.assertEqual(w.__str__(), self.zero.__str__(), msg="test_addZero failed: 0 + 0 != 0")
+        w = self.zero.__sub__(self.zero)
+        self.assertEqual(w.__str__(), self.zero.__str__(), msg="test_subZero failed: 0 - 0 != 0")
 
-    def test_addInverse(self):
-        u = self.a.__add__(self.inv_a)
-        self.assertEqual(u.__str__(), self.zero.__str__(), msg="test_addInverse failed: 3/4 + -3/4 != 0")
+    def test_subSelf(self):
+        u = self.a.__sub__(self.a)
+        self.assertEqual(u.__str__(), self.zero.__str__(), msg="test_subSelf failed: 3/4 - 3/4 != 0")
 
-        v = self.b.__add__(self.inv_b)
-        self.assertEqual(v.__str__(), self.zero.__str__(), msg="test_addInverse failed: 1/12 + -1/12 != 0")
+        v = self.inv_b.__sub__(self.inv_b)
+        self.assertEqual(v.__str__(), self.zero.__str__(), msg="test_subSelf failed: -1/12 - -1/12 != 0")
 
-    def test_addGeneral(self):
-        u = self.a.__add__(self.b)
-        self.assertEqual(u.__str__(), "5/6", msg="test_addInverse failed: 3/4 + 1/12 != 5/6")
+    def test_subGeneral(self):
+        u = self.a.__sub__(self.inv_b)
+        self.assertEqual(u.__str__(), "5/6", msg="test_subGeneral failed: 3/4 - -1/12 != 5/6")
 
-        v = self.a.__add__(self.inv_b)
-        self.assertEqual(v.__str__(), "2/3", msg="test_addInverse failed: 3/4 + -1/12 != 2/3")
+        v = self.a.__sub__(self.b)
+        self.assertEqual(v.__str__(), "2/3", msg="test_subGeneral failed: 3/4 - 1/12 != 2/3")
 
-        w = self.inv_a.__add__(self.b)
-        self.assertEqual(w.__str__(), "-2/3", msg="test_addInverse failed: -3/4 + 1/12 != -2/3")
+        w = self.inv_a.__sub__(self.inv_b)
+        self.assertEqual(w.__str__(), "-2/3", msg="test_subGeneral failed: -3/4 - -1/12 != -2/3")
 
-        x = self.inv_a.__add__(self.inv_b)
-        self.assertEqual(x.__str__(), "-5/6", msg="test_addInverse failed: -3/4 + -1/12 != -5/6")
+        x = self.inv_a.__sub__(self.b)
+        self.assertEqual(x.__str__(), "-5/6", msg="test_subGeneral failed: -3/4 - 1/12 != -5/6")
 
-        y = self.a.__add__(self.c)
-        self.assertEqual(y.__str__(), "23/4", msg="test_addInverse failed: 3/4 + 5 != 23/4")
+        y = self.a.__sub__(self.c)
+        self.assertEqual(y.__str__(), "-17/4", msg="test_subGeneral failed: 3/4 - 5 != -17/4")
 
-        z = self.c.__add__(self.inv_b)
-        self.assertEqual(z.__str__(), "59/12", msg="test_addInverse failed: 5 + -1/12 != 59/12")
+        z = self.c.__sub__(self.b)
+        self.assertEqual(z.__str__(), "59/12", msg="test_subGeneral failed: 5 - 1/12 != 59/12")
 
-        t = self.d.__add__(self.inv_a)
-        self.assertEqual(t.__str__(), "29/20", msg="test_addInverse failed: 11/5 + -3/4 != 29/20")
+        t = self.d.__sub__(self.a)
+        self.assertEqual(t.__str__(), "29/20", msg="test_subGeneral failed: 11/5 - 3/4 != 29/20")
