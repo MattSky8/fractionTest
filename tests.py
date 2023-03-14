@@ -168,6 +168,16 @@ class TestAdd(unittest.TestCase):
         self.c = Fraction(5)
         self.d = Fraction(11, 5)
 
+    def test_invalidArg(self):
+        with self.assertRaises(TypeError, msg="Fraction.__add__(1.0) does not raise TypeError"):
+            w = self.a.__add__(1.0)
+        with self.assertRaises(TypeError, msg="Fraction.__add__({1, 2}) does not raise TypeError"):
+            x = self.b.__add__({1, 2})
+        with self.assertRaises(TypeError, msg="Fraction.__add__(1j) does not raise TypeError"):
+            y = self.c.__add__(1j)
+        with self.assertRaises(TypeError, msg="Fraction.__add__(\"3/4\") does not raise TypeError"):
+            z = self.d.__add__("3/4")
+
     def test_addZero(self):
         u = self.a.__add__(self.zero)
         self.assertEqual(u.__str__(), self.a.__str__(), msg="test_addZero failed: 3/4 + 0 != 3/4")
@@ -217,6 +227,16 @@ class TestSub(unittest.TestCase):
         self.inv_b = Fraction(-1, 12)
         self.c = Fraction(5)
         self.d = Fraction(11, 5)
+
+    def test_invalidArg(self):
+        with self.assertRaises(TypeError, msg="Fraction.__sub__(1.0) does not raise TypeError"):
+            w = self.a.__sub__(1.0)
+        with self.assertRaises(TypeError, msg="Fraction.__sub__({1, 2}) does not raise TypeError"):
+            x = self.b.__sub__({1, 2})
+        with self.assertRaises(TypeError, msg="Fraction.__sub__(1j) does not raise TypeError"):
+            y = self.c.__sub__(1j)
+        with self.assertRaises(TypeError, msg="Fraction.__sub__(\"3/4\") does not raise TypeError"):
+            z = self.d.__sub__("3/4")
 
     def test_subZero(self):
         u = self.a.__sub__(self.zero)
