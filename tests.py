@@ -276,3 +276,84 @@ class TestSub(unittest.TestCase):
 
         t = self.d.__sub__(self.a)
         self.assertEqual(t.__str__(), "29/20", msg="test_subGeneral failed: 11/5 - 3/4 != 29/20")
+
+
+class TestMul(unittest.TestCase):
+    def test_invalidArg(self):
+        a = Fraction(3, 4)
+        with self.assertRaises(TypeError, msg="Fraction.__mul__(1.0) does not raise TypeError"):
+            w = a.__mul__(1.0)
+        with self.assertRaises(TypeError, msg="Fraction.__mul__({1, 2}) does not raise TypeError"):
+            x = a.__mul__({1, 2})
+        with self.assertRaises(TypeError, msg="Fraction.__mul__(1j) does not raise TypeError"):
+            y = a.__mul__(1j)
+        with self.assertRaises(TypeError, msg="Fraction.__mul__(\"3/4\") does not raise TypeError"):
+            z = a.__mul__("3/4")
+
+    def test_mul(self):
+        zero = Fraction()
+        self.assertEqual(zero.__mul__(Fraction(3, 7)).__str__(), "0", msg="test_mul failed: 0 * 3/7 != 0")
+
+        self.assertEqual(zero.__mul__(zero).__str__(), "0", msg="test_mul failed: 0 * 0 != 0")
+
+        self.assertEqual(Fraction(-10, 1).__mul__(zero).__str__(), "0", msg="test_mul failed: -10 * 0 != 0")
+
+        one = Fraction(1)
+        self.assertEqual(one.__mul__(zero).__str__(), "0", msg="test_mul failed: 1 * 0 != 0")
+
+        m1 = Fraction(-6, 5)
+        m2 = Fraction(2, 1)
+        p = Fraction(-12, 5)
+        self.assertEqual(m1.__mul__(m2).__str__(), p.__str__(), msg="test_mul failed: -6/5 * 2 != -12/5")
+
+        self.assertEqual(m1.__mul__(m2).__str__(), m2.__mul__(m1).__str__(), msg="test_mul failed: "
+                                                                                 "-6/5 * 2 != 2 * -6/5")
+
+        m1 = Fraction(-14)
+        m2 = Fraction(7, -33)
+        p = Fraction(98, 33)
+        self.assertEqual(m1.__mul__(m2).__str__(), p.__str__(), msg="test_mul failed: -14 * -7/33 != 98/33")
+
+
+class TestTrueDiv(unittest.TestCase):
+    def setUp(self):
+        self.zero = Fraction()
+        self.one = Fraction(1)
+
+    def test_invalidArg(self):
+        a = Fraction(3, 4)
+        with self.assertRaises(TypeError, msg="Fraction.__truediv__(1.0) does not raise TypeError"):
+            w = a.__truediv__(1.0)
+        with self.assertRaises(TypeError, msg="Fraction.__truediv__({1, 2}) does not raise TypeError"):
+            x = a.__truediv__({1, 2})
+        with self.assertRaises(TypeError, msg="Fraction.__truediv__(1j) does not raise TypeError"):
+            y = a.__truediv__(1j)
+        with self.assertRaises(TypeError, msg="Fraction.__truediv__(\"3/4\") does not raise TypeError"):
+            z = a.__truediv__("3/4")
+
+    def test_trueDivByZero(self):
+        with self.assertRaises(ZeroDivisionError, msg="Fraction.__truediv__(Fraction(0, 1)) "
+                                                      "does not raise ZeroDivisionError"):
+            self.one.__truediv__(self.zero)
+
+        with self.assertRaises(ZeroDivisionError, msg="Fraction(0,1).__truediv__(Fraction(0, 1)) "
+                                                      "does not raise ZeroDivisionError"):
+            self.zero.__truediv__(self.zero)
+
+    def test_trueDiv(self):
+        self.assertEqual(self.one.__truediv__(self.one).__str__(), "1", msg="test_trueDiv failed: 1 / 1 != 1")
+
+        self.assertEqual(self.zero.__truediv__(self.one).__str__(), self.zero.__str__(), msg="test_trueDiv failed: "
+                                                                                             "0 / 1 != 0")
+        d1 = Fraction(-6, 5)
+        d2 = d1
+        q = self.one
+        self.assertEqual(d1.__truediv__(d2).__str__(), q.__str__(), msg="test_trueDiv failed: (-6/5) / (-6/5) != 1")
+
+        self.assertEqual(d1.__truediv__(q), d2.__str__(), msg="test_trueDiv failed: (-6/5) / 1 != -6/5")
+
+        d1 = Fraction(-14)
+        d2 = Fraction(7, -33)
+        q = Fraction(66)
+        self.assertEqual(d1.__truediv__(d2).__str__(), q.__str__(), msg="test_trueDiv failed: -14 / (-7/33) != 66")
+
